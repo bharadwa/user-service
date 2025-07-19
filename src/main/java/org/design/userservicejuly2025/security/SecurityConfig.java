@@ -1,3 +1,4 @@
+/*
 package org.design.userservicejuly2025.security;
 
 
@@ -157,4 +158,4 @@ public class SecurityConfig {
         return AuthorizationServerSettings.builder().build();
     }
 
-}
+}*/

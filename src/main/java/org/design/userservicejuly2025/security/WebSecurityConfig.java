@@ -1,4 +1,3 @@
-/*
 package org.design.userservicejuly2025.security;
 
 import org.springframework.context.annotation.Bean;
@@ -26,4 +25,3 @@ public class WebSecurityConfig {
     }
 
 }
-*/
