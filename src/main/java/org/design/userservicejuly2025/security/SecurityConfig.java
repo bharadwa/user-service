@@ -1,4 +1,3 @@
-/*
 package org.design.userservicejuly2025.security;
 
 
@@ -44,7 +43,7 @@ import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
+    @Order(1)
     @Bean
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
             throws Exception {
@@ -58,7 +57,7 @@ public class SecurityConfig {
                                 .oidc(Customizer.withDefaults())	// Enable OpenID Connect 1.0
                 )
                 .authorizeHttpRequests((authorize) ->
-                        authorize
+                        authorize.requestMatchers("/auth/signup").permitAll()
                                 .anyRequest().authenticated()
                 )
                 // Redirect to the login page when not authenticated from the
@@ -74,11 +73,14 @@ public class SecurityConfig {
     }
 
 
+    @Order(2)
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
             throws Exception {
-        http
+        http.cors(cors -> cors.disable())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/auth/signup").permitAll()
                         .anyRequest().authenticated()
                 )
                 // Form login handles the redirect to the login page from the
@@ -87,6 +89,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+    // commenting this code as we implemented the user details service in the UserServiceApplication class
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -100,7 +103,7 @@ public class SecurityConfig {
     }
 
 
-    @Bean
+   /* @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("oidc-client")
@@ -116,7 +119,7 @@ public class SecurityConfig {
                 .build();
 
         return new InMemoryRegisteredClientRepository(oidcClient);
-    }
+    }*/
 
 
     @Bean
@@ -158,4 +161,4 @@ public class SecurityConfig {
         return AuthorizationServerSettings.builder().build();
     }
 
-}*/
+}
